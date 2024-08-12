@@ -8,19 +8,19 @@ const Articles = () => {
 
   const fetchArticles = async (searchParams) => {
     const { keyword, category, source, date } = searchParams;
+    console.log(searchParams)
     const API_KEY = '9c4e532098da45c4b1358a6e75ddcac6';
     
     try {
       const response = await axios.get('https://newsapi.org/v2/everything', {
         params: {
-          q: keyword || 'general', // Fallback to 'general' if keyword is empty
+          q: keyword || source || category || 'general',
           from: date || '2024-07-12',
           sortBy: 'publishedAt',
           apiKey: API_KEY,
         },
       });
 
-      // Set articles to the state
       setArticles(response.data.articles);
     } catch (error) {
       console.error('Error fetching articles:', error.message);
