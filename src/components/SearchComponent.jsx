@@ -28,7 +28,6 @@ const SearchComponent = ({ onSearch }) => {
           <Form.Group>
             <Form.Select value={category} onChange={(e) => setCategory(e.target.value)}>
               <option value="">Select Category</option>
-              {/* Add more options here */}
             </Form.Select>
           </Form.Group>
         </Col>
@@ -36,7 +35,6 @@ const SearchComponent = ({ onSearch }) => {
           <Form.Group>
             <Form.Select value={source} onChange={(e) => setSource(e.target.value)}>
               <option value="">Select Source</option>
-              {/* Add more options here */}
             </Form.Select>
           </Form.Group>
         </Col>
