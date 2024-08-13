@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 
-const SearchComponent = ({ onSearch }) => {
+const SearchComponent = ({ onSearch, sources, setArticles }) => {
   const [keyword, setKeyword] = useState('');
   const [category, setCategory] = useState('');
   const [source, setSource] = useState('');
@@ -33,8 +33,16 @@ const SearchComponent = ({ onSearch }) => {
         </Col>
         <Col md={3}>
           <Form.Group>
-            <Form.Select value={source} onChange={(e) => setSource(e.target.value)}>
-              <option value="">Select Source</option>
+            <Form.Select value={source} onChange={(e) => {setSource(e.target.value) 
+              setArticles((prv)=> {
+                return prv.filter((p, i)=> {
+                  return p.source.id === e.target.value
+                } )
+              })
+            }}>
+              {sources.map((p, i)=>{
+                return <option value={p.id} key={i}>{p.name}</option>
+              }) }
             </Form.Select>
           </Form.Group>
         </Col>

@@ -1,21 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Card, Row, Col } from 'react-bootstrap';
 import SearchComponent from './SearchComponent';
 
+export const API_KEY = '9c4e532098da45c4b1358a6e75ddcac6';
+
 const Articles = () => {
+  
   const [articles, setArticles] = useState([]);
+  const [sources, setSources ] = useState([]);
+  useEffect(() => {
+    (async()=>{
+      try {
+        const response = await axios.get('https://newsapi.org/v2/top-headlines/sources', {
+          params: {
+            apiKey: API_KEY,
+          },
+        });
+        setSources(response.data.sources);
+      } catch (error) {
+        console.error('Error fetching articles:', error.message);
+      }
+    })() 
+  }, [])
 
   const fetchArticles = async (searchParams) => {
     const { keyword, category, source, date } = searchParams;
-    console.log(searchParams)
-    const API_KEY = '9c4e532098da45c4b1358a6e75ddcac6';
-    
     try {
       const response = await axios.get('https://newsapi.org/v2/everything', {
         params: {
           q: keyword || source || category || 'general',
-          from: date || '2024-07-12',
+          from: date || '',
           sortBy: 'publishedAt',
           apiKey: API_KEY,
         },
@@ -29,7 +44,7 @@ const Articles = () => {
 
   return (
     <div>
-      <SearchComponent onSearch={fetchArticles} />
+      <SearchComponent onSearch={fetchArticles} sources={sources} setArticles={setArticles} />
       <Row>
         {articles.map((article, index) => (
           <Col md={4} key={index}>
